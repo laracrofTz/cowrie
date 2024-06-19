@@ -21,6 +21,9 @@ import cowrie.commands
 from cowrie.core.config import CowrieConfig
 from cowrie.shell import command, honeypot
 
+import openai
+import yaml
+from dotenv import dotenv_values
 
 class HoneyPotBaseProtocol(insults.TerminalProtocol, TimeoutMixin):
     """
@@ -138,10 +141,41 @@ class HoneyPotBaseProtocol(insults.TerminalProtocol, TimeoutMixin):
     def txtcmd(self, txt: str) -> object:
         class Command_txtcmd(command.HoneyPotCommand):
             def call(self):
-                log.msg(f'Reading txtcmd from "{txt}"')
-                with open(txt, encoding="utf-8") as f:
-                    self.write(f.read())
+                cmds_ls = ['df', 'dmesg', 'pkill', 'lscpu', 'nproc', 'top']
+                log.msg(f'Reading txtcmd from "{txt}"') # txt is the path share/cowrie/txtcmds/bin/df
 
+                path = txt
+                path.rsplit('/')
+                llm_cmd = path[-1]
+                log.msg(f"Extracted cmd: {llm_cmd}")
+
+                if llm_cmd in cmds_ls:
+                    self.runLLM(llm_cmd)
+                else:
+                    with open(txt, encoding="utf-8") as f:
+                        self.write(f.read())
+            
+            def runLLM(self, cmd_input: str):
+                config = dotenv_values("./src/cowrie/commands/sheLM/key.env")
+                openai.api_key = config["OPENAI_API_KEY"]
+
+                # with open('./src/cowrie/commands/sheLM/fewshot_personalitySSH.yml', 'r') as pFile:
+                #     identity = yaml.safe_load(pFile)
+
+                # identity = identity['personality']
+                # prompt = identity['prompt']
+                initial_prompt = "You are a Linux OS terminal. Your task is to respond exactly as a Linux terminal would."
+                prompt = initial_prompt + f"The user has input this Linux command {cmd_input}. Generate the appropriate output a user would expect for this command."
+
+                res = openai.chat.completions.create(
+                    model="gpt-3.5-turbo-16k",
+                    messages = prompt,
+                    temperature = 0, # randomness of output
+                    max_tokens = 800
+                    #frequency_penalty=0.5
+                )
+                msg = res.choices[0].message.content # response from model
+                self.write(msg)
         return Command_txtcmd
 
     def isCommand(self, cmd):
@@ -241,7 +275,7 @@ class HoneyPotExecProtocol(HoneyPotBaseProtocol):
         self.cmdstack = [honeypot.HoneyPotShell(self, interactive=False)]
         # TODO: quick and dirty fix to deal with \n separated commands
         # HoneypotShell() needs a rewrite to better work with pending input
-        self.cmdstack[0].lineReceived("; ".join(self.execcmd.strip().split("\n")))
+        self.cmdstack[0].lineReceived("; ".join(self.execcmd.split("\n")))
 
     def keystrokeReceived(self, keyID, modifier):
         self.input_data += keyID
