@@ -145,7 +145,7 @@ class HoneyPotBaseProtocol(insults.TerminalProtocol, TimeoutMixin):
                 log.msg(f'Reading txtcmd from "{txt}"') # txt is the path share/cowrie/txtcmds/bin/df
 
                 path = txt
-                path.rsplit('/')
+                path = path.rsplit('/')
                 llm_cmd = path[-1]
                 log.msg(f"Extracted cmd: {llm_cmd}")
 
