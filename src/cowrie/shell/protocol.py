@@ -154,30 +154,35 @@ class HoneyPotBaseProtocol(insults.TerminalProtocol, TimeoutMixin):
                 else:
                     with open(txt, encoding="utf-8") as f:
                         self.write(f.read())
-            
+            # maybe need to add a function that gives initial information about the username and hostname to the LLM so it will understand how to produce dynamic outputs accordingly???
+
             def runLLM(self, cmd_input: str):
                 current_path = os.getcwd()
                 log.msg(f"Current working dir is {current_path}") # Current working dir is /home/cowrie1/cowrie
                 #config = dotenv_values("./src/cowrie/commands/sheLM/key.env")
                 #openai.api_key = config["OPENAI_API_KEY"] # this line was causing key error, so I manually added the key (not the best practice)
-                openai.api_key = 'my-api-key'
+                openai.api_key = 'my-api-key' #sk-cowrie-poc-LoDxIQLF8Nki2bpbHYFIT3BlbkFJxxahJfi8yktT0dzYDxCe
 
-                # with open('./src/cowrie/commands/sheLM/fewshot_personalitySSH.yml', 'r') as pFile:
-                #     identity = yaml.safe_load(pFile)
-                # identity = identity['personality']
-                # prompt = identity['prompt']
+                with open('./src/cowrie/commands/sheLM/fewshot_personalitySSH.yml', 'r') as pFile:
+                    identity = yaml.safe_load(pFile)
+                identity = identity['personality']
+                personality_prompt = identity['prompt']
 
-                initial_prompt = "You are a Linux OS terminal. Your task is to respond exactly as a Linux terminal would."
-                prompt = initial_prompt + f"The user has input this Linux command {cmd_input}. Generate the appropriate output a user would expect for this command."
+                initial_prompt = "You are a Linux OS terminal. Your task is to respond exactly as a Linux terminal would. The user has input this Linux command {cmd_input}. Generate the correct output a user would expect for this command."
+                prompt = initial_prompt + personality_prompt
                 message = [{"role": "system", "content": prompt}]
 
-                res = openai.chat.completions.create(
+                res = openai.chat.completions.create( # try stream but i dont think it makes a difference
                     model="gpt-3.5-turbo-16k",
                     messages = message, 
                     temperature = 0, # randomness of output
                     max_tokens = 800
                     #frequency_penalty=0.5
                 )
+                # result = "" # for streaming
+                # for chunk in res:
+                #     result += chunk['text']
+
                 msg = res.choices[0].message.content # response from model
                 self.write(f"{msg}\n") # add newline 
         return Command_txtcmd
