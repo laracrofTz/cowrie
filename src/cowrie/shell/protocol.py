@@ -159,25 +159,25 @@ class HoneyPotBaseProtocol(insults.TerminalProtocol, TimeoutMixin):
             def runLLM(self, cmd_input: str):
                 current_path = os.getcwd()
                 log.msg(f"Current working dir is {current_path}") # Current working dir is /home/cowrie1/cowrie
-                #config = dotenv_values("./src/cowrie/commands/sheLM/key.env")
+                #config = dotenv_values("./src/cowrie/shell/sheLM/key.env")
                 #openai.api_key = config["OPENAI_API_KEY"] # this line was causing key error, so I manually added the key (not the best practice)
-                openai.api_key = 'my-api-key'
+                openai.api_key = ('your-api-key')
 
                 dir_path = os.path.dirname(os.path.realpath(__file__))
                 log.msg(f"Path dir is {dir_path}")
 
-                with open('/sheLM/fewshot_personalitySSH.yml', 'r') as pFile:
+                with open('./src/cowrie/shell/shelLM/fewshot_personalitySSH.yml', 'r') as pFile:
                     identity = yaml.safe_load(pFile)
                 identity = identity['personality']
                 personality_prompt = identity['prompt']
 
-                initial_prompt = "You are a Linux OS terminal. Your task is to respond exactly as a Linux terminal would. The user has input this Linux command {cmd_input}. Generate the correct output a user would expect for this command."
+                initial_prompt = f"You are a Linux OS terminal. Your task is to respond exactly as a Linux terminal would. The user has input this Linux command {cmd_input}. Generate the correct output a user would expect for this command."
                 prompt = initial_prompt + personality_prompt
-                message = [{"role": "system", "content": prompt}]
+                message = [{"role": "system", "content": initial_prompt}]
 
                 res = openai.chat.completions.create( # try stream but i dont think it makes a difference
                     model="gpt-3.5-turbo-16k",
-                    messages = message, 
+                    messages = message,
                     temperature = 0, # randomness of output
                     max_tokens = 800
                     #frequency_penalty=0.5
@@ -187,7 +187,9 @@ class HoneyPotBaseProtocol(insults.TerminalProtocol, TimeoutMixin):
                 #     result += chunk['text']
 
                 msg = res.choices[0].message.content # response from model
-                self.write(f"{msg}\n") # add newline 
+                self.write(f"{msg}\n") # add newline
+
+                # new ^^
         return Command_txtcmd
 
     def isCommand(self, cmd):
