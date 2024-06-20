@@ -156,26 +156,30 @@ class HoneyPotBaseProtocol(insults.TerminalProtocol, TimeoutMixin):
                         self.write(f.read())
             
             def runLLM(self, cmd_input: str):
-                config = dotenv_values("./src/cowrie/commands/sheLM/key.env")
-                openai.api_key = config["OPENAI_API_KEY"]
+                current_path = os.getcwd()
+                log.msg(f"Current working dir is {current_path}") # Current working dir is /home/cowrie1/cowrie
+                #config = dotenv_values("./src/cowrie/commands/sheLM/key.env")
+                #openai.api_key = config["OPENAI_API_KEY"] # this line was causing key error, so I manually added the key (not the best practice)
+                openai.api_key = 'my-api-key'
 
                 # with open('./src/cowrie/commands/sheLM/fewshot_personalitySSH.yml', 'r') as pFile:
                 #     identity = yaml.safe_load(pFile)
-
                 # identity = identity['personality']
                 # prompt = identity['prompt']
+
                 initial_prompt = "You are a Linux OS terminal. Your task is to respond exactly as a Linux terminal would."
                 prompt = initial_prompt + f"The user has input this Linux command {cmd_input}. Generate the appropriate output a user would expect for this command."
+                message = [{"role": "system", "content": prompt}]
 
                 res = openai.chat.completions.create(
                     model="gpt-3.5-turbo-16k",
-                    messages = prompt,
+                    messages = message, 
                     temperature = 0, # randomness of output
                     max_tokens = 800
                     #frequency_penalty=0.5
                 )
                 msg = res.choices[0].message.content # response from model
-                self.write(msg)
+                self.write(f"{msg}\n") # add newline 
         return Command_txtcmd
 
     def isCommand(self, cmd):
