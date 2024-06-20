@@ -161,7 +161,7 @@ class HoneyPotBaseProtocol(insults.TerminalProtocol, TimeoutMixin):
                 log.msg(f"Current working dir is {current_path}") # Current working dir is /home/cowrie1/cowrie
                 #config = dotenv_values("./src/cowrie/commands/sheLM/key.env")
                 #openai.api_key = config["OPENAI_API_KEY"] # this line was causing key error, so I manually added the key (not the best practice)
-                openai.api_key = 'my-api-key' #sk-cowrie-poc-LoDxIQLF8Nki2bpbHYFIT3BlbkFJxxahJfi8yktT0dzYDxCe
+                openai.api_key = 'my-api-key'
 
                 with open('./sheLM/fewshot_personalitySSH.yml', 'r') as pFile:
                     identity = yaml.safe_load(pFile)
