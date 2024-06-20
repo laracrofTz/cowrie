@@ -163,7 +163,10 @@ class HoneyPotBaseProtocol(insults.TerminalProtocol, TimeoutMixin):
                 #openai.api_key = config["OPENAI_API_KEY"] # this line was causing key error, so I manually added the key (not the best practice)
                 openai.api_key = 'my-api-key'
 
-                with open('./sheLM/fewshot_personalitySSH.yml', 'r') as pFile:
+                dir_path = os.path.dirname(os.path.realpath(__file__))
+                log.msg(f"Path dir is {dir_path}")
+
+                with open('/sheLM/fewshot_personalitySSH.yml', 'r') as pFile:
                     identity = yaml.safe_load(pFile)
                 identity = identity['personality']
                 personality_prompt = identity['prompt']
