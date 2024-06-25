@@ -150,13 +150,14 @@ class HoneyPotBaseProtocol(insults.TerminalProtocol, TimeoutMixin):
                 log.msg(f"Extracted cmd: {llm_cmd}")
 
                 if llm_cmd in cmds_ls:
+                    self.write("Running LLM.")
                     self.runLLM(llm_cmd)
                 else:
                     with open(txt, encoding="utf-8") as f:
                         self.write(f.read())
             # maybe need to add a function that gives initial information about the username and hostname to the LLM so it will understand how to produce dynamic outputs accordingly???
 
-            def runLLM(self, cmd_input: str):
+            def runLLM_txtcmds(self, cmd_input: str):
                 current_path = os.getcwd()
                 log.msg(f"Current working dir is {current_path}") # Current working dir is /home/cowrie1/cowrie
                 #config = dotenv_values("./src/cowrie/shell/sheLM/key.env")

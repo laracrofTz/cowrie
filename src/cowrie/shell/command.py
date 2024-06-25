@@ -12,6 +12,8 @@ import re
 import shlex
 import stat
 import time
+import openai
+import yaml
 from collections.abc import Callable
 
 from twisted.internet import error
@@ -195,6 +197,32 @@ class HoneyPotCommand:
 
     def handle_CTRL_D(self) -> None:
         pass
+
+    def runLLM(self, cmd_input: str) -> None:
+        # add a count to see if the command is called more than once for caching
+        openai.api_key = ('sk-cowrie-poc-LoDxIQLF8Nki2bpbHYFIT3BlbkFJxxahJfi8yktT0dzYDxCe')
+        initial_prompt = f"You are a Linux OS terminal. Your task is to respond exactly as a Linux terminal would. The user has input this Linux command {cmd_input}. Generate the correct output a user would expect for this command."
+        
+        prompt = "You must not act like a chatbot. \
+            You must not explain any inputs or outputs. \
+            You must not in any case have a conversation with user as a chatbot and must not explain your output and do not repeat commands user inputs."
+
+        with open('./src/cowrie/shell/shelLM/fewshot_personalitySSH.yml', 'r') as pFile:
+                identity = yaml.safe_load(pFile)
+                identity = identity['personality']
+                personality_prompt = identity['prompt']
+
+        message = [{"role": "system", "content": initial_prompt}]
+
+        res = openai.chat.completions.create( # try stream but i dont think it makes a difference
+            model="gpt-3.5-turbo-16k",
+            messages = message,
+            temperature = 0, # randomness of output
+            max_tokens = 800
+            #frequency_penalty=0.5
+        )
+        msg = res.choices[0].message.content # response from model
+        self.write(f"{msg}\n") # add newline
 
     def __repr__(self) -> str:
         return str(self.__class__.__name__)
