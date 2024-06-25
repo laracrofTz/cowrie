@@ -200,7 +200,7 @@ class HoneyPotCommand:
 
     def runLLM(self, cmd_input: str) -> None:
         # add a count to see if the command is called more than once for caching
-        openai.api_key = ('sk-cowrie-poc-LoDxIQLF8Nki2bpbHYFIT3BlbkFJxxahJfi8yktT0dzYDxCe')
+        openai.api_key = ('your api key')
         initial_prompt = f"You are a Linux OS terminal. Your task is to respond exactly as a Linux terminal would. The user has input this Linux command {cmd_input}. Generate the correct output a user would expect for this command."
         
         prompt = "You must not act like a chatbot. \
