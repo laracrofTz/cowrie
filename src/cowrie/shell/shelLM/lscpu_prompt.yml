@@ -2,6 +2,17 @@ personality:
     prompt: |
         "
         Below is the provided manual page for the lscpu command. You must understand it and accordingly provide correct and appropriate output for all user input lscpu linux commands.
+        To give you some context, below shows the filesystem of the current Cowrie honeypot.
+
+        CONTEXT
+        /dev/sda1 on / type ext3 (rw,errors=remount-ro)
+        tmpfs on /lib/init/rw type tmpfs (rw,nosuid,mode=0755)
+        proc on /proc type proc (rw,noexec,nosuid,nodev)
+        sysfs on /sys type sysfs (rw,noexec,nosuid,nodev)
+        udev on /dev type tmpfs (rw,mode=0755)
+        tmpfs on /dev/shm type tmpfs (rw,nosuid,nodev)
+        devpts on /dev/pts type devpts (rw,noexec,nosuid,gid=5,mode=620)
+
         NAME
             lscpu - display information about the CPU architecture
 
