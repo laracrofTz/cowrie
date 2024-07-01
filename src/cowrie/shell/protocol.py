@@ -138,20 +138,46 @@ class HoneyPotBaseProtocol(insults.TerminalProtocol, TimeoutMixin):
         self.user = None
         self.environ = None
 
-    def txtcmd(self, txt: str) -> object:
+    def txtcmd(self, txt: str, cmd_arr) -> object:
         class Command_txtcmd(command.HoneyPotCommand):
             def call(self):
-                cmds_ls = ['df', 'dmesg', 'pkill', 'lscpu', 'nproc', 'top']
+                cmds_ls = ['df', 'dmesg', 'pkill', 'lscpu', 'nproc', 'top', 'vim']
                 log.msg(f'Reading txtcmd from "{txt}"') # txt is the path share/cowrie/txtcmds/bin/df
+                log.msg(f"cmd arr: {cmd_arr}")
+               
+                # Cmd array: [{'command': 'dmesg', 'rargs': ['-k']}]
+                # path = txt
+                # path = path.rsplit('/')
+                # llm_cmd = path[-1]
+                # log.msg(f"Extracted cmd: {llm_cmd}")
 
-                path = txt
-                path = path.rsplit('/')
-                llm_cmd = path[-1]
-                log.msg(f"Extracted cmd: {llm_cmd}")
+                # This is the full command: dmesg []
+                # Command arguments: []
+                # This is the full command: dmesg ['-d']
 
-                if llm_cmd in cmds_ls:
-                    self.write("Running LLM.")
-                    self.runLLM(llm_cmd)
+                main_cmd = str(cmd_arr[0]['command'])
+                cmd_args = str(cmd_arr[0]['rargs'])
+                cmd_args = cmd_args[1:-1]
+                log.msg(f"Command arguments: {cmd_args}")
+
+                if cmd_args == '[]':
+                    full_cmd = main_cmd
+                else:
+                    full_cmd = main_cmd + " " + cmd_args
+                log.msg(f"This is the full command: {full_cmd}")
+
+                if main_cmd in cmds_ls:
+                    if main_cmd == 'dmesg':
+                        prompt_file = "dmesg_prompt.yml"
+                    elif main_cmd == 'df':
+                        prompt_file = "df_prompt.yml"
+                    elif main_cmd == 'lscpu':
+                        prompt_file = "lscpu_prompt.yml"
+                    else:
+                        prompt_file = "fewshot_personalitySSH.yml"
+
+                    self.write("Running LLM.\n")
+                    self.runLLM(full_cmd, prompt_file)
                 else:
                     with open(txt, encoding="utf-8") as f:
                         self.write(f.read())
@@ -199,7 +225,7 @@ class HoneyPotBaseProtocol(insults.TerminalProtocol, TimeoutMixin):
         """
         return True if cmd in self.commands else False
 
-    def getCommand(self, cmd, paths):
+    def getCommand(self, cmd, paths, cmd_arr):
         if not cmd.strip():
             return None
         path = None
@@ -219,7 +245,7 @@ class HoneyPotBaseProtocol(insults.TerminalProtocol, TimeoutMixin):
             "{}/txtcmds/{}".format(CowrieConfig.get("honeypot", "share_path"), path)
         )
         if os.path.exists(txt) and os.path.isfile(txt):
-            return self.txtcmd(txt)
+            return self.txtcmd(txt, cmd_arr)
 
         if path in self.commands:
             return self.commands[path]

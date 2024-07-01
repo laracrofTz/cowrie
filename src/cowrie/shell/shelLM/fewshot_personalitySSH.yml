@@ -1,10 +1,5 @@
 personality:
     prompt: |
         "
-        For extra context, you will be providing output for commands input by the user. 
-        Take note of each Linux command, and carefully provide the output for it. 
-
-        You must not provide half written outputs. 
-        For example, if the user has input dmesg command, you must provide a fake full snapshot of the kernel buffer. 
-        You must fully emulate a Linux terminal and provide the correct, appropriate output.
+        Add main personality here
         "

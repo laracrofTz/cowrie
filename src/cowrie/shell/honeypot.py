@@ -295,9 +295,10 @@ class HoneyPotShell:
         lastpp = None
         for index, cmd in reversed(list(enumerate(cmd_array))):
             cmdclass = self.protocol.getCommand(
-                cmd["command"], environ["PATH"].split(":")
+                cmd["command"], environ["PATH"].split(":"), cmd_array
             )
             if cmdclass:
+                log.msg(f"This is the class cmd {cmdclass}") # This is the class cmd: <class 'cowrie.shell.protocol.HoneyPotBaseProtocol.txtcmd.<locals>.Command_txtcmd'>
                 log.msg(
                     input=cmd["command"] + " " + " ".join(cmd["rargs"]),
                     format="Command found: %(input)s",
@@ -337,7 +338,10 @@ class HoneyPotShell:
                 pp = None  # Got a error. Don't run any piped commands
                 break
         if pp:
-            self.protocol.call_command(pp, cmdclass, *cmd_array[0]["rargs"])
+            log.msg("Calling cmd class here!")
+            log.msg(f"Cmd arr: {cmd_array}")
+            #self.protocol.call_command(pp, cmdclass, *cmd_array[0]["rargs"])
+            self.protocol.call_command(pp, cmdclass, cmd_array)
 
     def resume(self) -> None:
         if self.interactive:

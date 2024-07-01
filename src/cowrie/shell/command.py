@@ -198,11 +198,12 @@ class HoneyPotCommand:
     def handle_CTRL_D(self) -> None:
         pass
 
-    def runLLM(self, cmd_input: str) -> None:
+    def runLLM(self, cmd_input: str, prompt_file: str) -> None:
         # add a count to see if the command is called more than once for caching
         openai.api_key = ('your api key')
-        initial_prompt = f"You are a Linux OS terminal. Your task is to respond exactly as a Linux terminal would. The user has input this Linux command {cmd_input}. Generate the correct output a user would expect for this command."
-        
+        initial_prompt = f"You are a Linux OS terminal. Your task is to respond exactly as a Linux terminal would. The user has input this Linux command {cmd_input}. \
+            Use the information provided as a reference and generate the output accordingly." #Generate the correct output a user would expect for this command."
+        #  
         prompt = "You must not act like a chatbot. \
             You must not explain any inputs or outputs. \
             You must not in any case have a conversation with user as a chatbot and must not explain your output and do not repeat commands user inputs."
@@ -212,7 +213,7 @@ class HoneyPotCommand:
                 identity = identity['personality']
                 personality_prompt = identity['prompt']
 
-        message = [{"role": "system", "content": initial_prompt}]
+        message = [{"role": "system", "content": initial_prompt+prompt}]
 
         res = openai.chat.completions.create( # try stream but i dont think it makes a difference
             model="gpt-3.5-turbo-16k",

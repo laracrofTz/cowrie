@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import socket
+import openai
 
 from cowrie.shell.command import HoneyPotCommand
 
@@ -181,24 +182,42 @@ unix  3      [ ]         STREAM     CONNECTED     8619     @/com/ubuntu/upstart\
             )
 
     def call(self) -> None:
-        self.show_all = False
-        self.show_numeric = False
-        self.show_listen = False
-        func = self.do_netstat_normal
-        for x in self.args:
-            if x.startswith("-") and x.count("a"):
-                self.show_all = True
-            if x.startswith("-") and x.count("n"):
-                self.show_numeric = True
-            if x.startswith("-") and x.count("l"):
-                self.show_listen = True
-            if x.startswith("-") and x.count("r"):
-                func = self.do_netstat_route
-            if x.startswith("-") and x.count("h"):
-                func = self.show_help
-            if x.startswith("-") and x.count("V"):
-                func = self.show_version
-        func()
+        if len(self.args) == 0:
+            self.write(f"Normal netstat command")
+            self.runLLM('netstat', 'netstat_prompt.yml')
+        else:
+            netstat_cmd = "netstat "
+            for a in self.args:
+                netstat_cmd = netstat_cmd + a + " "
+            self.write(f"Netstat with args: {netstat_cmd}")
+            self.runLLM(netstat_cmd, 'netstat_prompt.yml')
+            
+    # def call(self) -> None:
+    #     self.show_all = False
+    #     self.show_numeric = False
+    #     self.show_listen = False
+    #     func = self.do_netstat_normal
+    #     for x in self.args:
+    #         # self.args --> ['-A', 'inet6']
+    #         self.write(f"Netstat command is {x}\n")
+    #         netstat_cmd = f"netstat {x}\n"
+    #         self.write(f"Command is {netstat_cmd}\n")
+    #         # self.runLLM_netstat(netstat_cmd)
+    #         self.runLLM(netstat_cmd)
+
+            # if x.startswith("-") and x.count("a"):
+            #     self.show_all = True
+            # if x.startswith("-") and x.count("n"):
+            #     self.show_numeric = True
+            # if x.startswith("-") and x.count("l"):
+            #     self.show_listen = True
+            # if x.startswith("-") and x.count("r"):
+            #     func = self.do_netstat_route
+            # if x.startswith("-") and x.count("h"):
+            #     func = self.show_help
+            # if x.startswith("-") and x.count("V"):
+            #     func = self.show_version
+        #func()
 
 
 commands["/bin/netstat"] = Command_netstat
