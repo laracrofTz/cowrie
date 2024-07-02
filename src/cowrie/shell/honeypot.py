@@ -22,6 +22,9 @@ class HoneyPotShell:
     def __init__(
         self, protocol: Any, interactive: bool = True, redirect: bool = False
     ) -> None:
+        log.msg("Initialising honeypotshell class here!")
+        self.cmd_count = {}
+        log.msg(self.cmd_count)
         self.protocol = protocol
         self.interactive: bool = interactive
         self.redirect: bool = redirect  # to support output redirection
@@ -293,9 +296,28 @@ class HoneyPotShell:
             cmd = {}
 
         lastpp = None
+
+        main_cmd = str(cmd_array[0]['command'])
+        cmd_args = str(cmd_array[0]['rargs'])
+        cmd_args = cmd_args[1:-1] # to remove the brackets
+
+        if cmd_args == '':
+            full_cmd = main_cmd
+        else:
+            cmd_args = cmd_args[1:-1]
+            log.msg("cmg_args")
+            log.msg("cmd_args[1:-1]")
+            full_cmd = main_cmd + " " + cmd_args
+
+        # update count dictionary
+        if full_cmd not in self.cmd_count:
+            self.cmd_count[full_cmd] = 1
+        else:
+            self.cmd_count[full_cmd] += 1
+
         for index, cmd in reversed(list(enumerate(cmd_array))):
             cmdclass = self.protocol.getCommand(
-                cmd["command"], environ["PATH"].split(":"), cmd_array
+                cmd["command"], environ["PATH"].split(":"), full_cmd, self.cmd_count
             )
             if cmdclass:
                 log.msg(f"This is the class cmd {cmdclass}") # This is the class cmd: <class 'cowrie.shell.protocol.HoneyPotBaseProtocol.txtcmd.<locals>.Command_txtcmd'>
@@ -341,7 +363,7 @@ class HoneyPotShell:
             log.msg("Calling cmd class here!")
             log.msg(f"Cmd arr: {cmd_array}")
             #self.protocol.call_command(pp, cmdclass, *cmd_array[0]["rargs"])
-            self.protocol.call_command(pp, cmdclass, cmd_array)
+            self.protocol.call_command(pp, cmdclass, cmd_array) # not related to sending the command
 
     def resume(self) -> None:
         if self.interactive:

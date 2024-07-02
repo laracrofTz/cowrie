@@ -12,8 +12,10 @@ import re
 import shlex
 import stat
 import time
-import openai
+import openai 
 import yaml
+import collections
+from pathlib import Path
 from collections.abc import Callable
 
 from twisted.internet import error
@@ -31,6 +33,9 @@ class HoneyPotCommand:
     safeoutfile: str = ""
 
     def __init__(self, protocol, *args):
+        # keeping track of command count
+        #self.cmd_count = {} # keeps resetting here
+
         self.protocol = protocol
         self.args = list(args)
         self.environ = self.protocol.cmdstack[0].environ
@@ -140,11 +145,19 @@ class HoneyPotCommand:
         self.writtenBytes += len(data)
         self.fs.update_size(self.outfile, self.writtenBytes)
 
+    def write_to_file_str(self, msg: str, filename: str) -> None:
+        full_filepath = f"./src/cowrie/shell/outputs/{filename}.txt"
+        # outputs also has to be cleared each time
+        with open(full_filepath, 'w') as outFile:
+            outFile.write(msg)
+        outFile.close()
+
     def write_to_failed(self, data: bytes) -> None:
         pass
 
-    def start(self) -> None:
+    def start(self) -> None: # only starts when we input command, not called during startup
         if self.writefn != self.write_to_failed:
+            #self.cmd_count = {} # reset the count here when we restart the honeypot
             self.call()
         self.exit()
 
@@ -198,32 +211,50 @@ class HoneyPotCommand:
     def handle_CTRL_D(self) -> None:
         pass
 
-    def runLLM(self, cmd_input: str, prompt_file: str) -> None:
+    def runLLM(self, cmd_input: str, prompt_file: str, cmd_count) -> None:
         # add a count to see if the command is called more than once for caching
-        openai.api_key = ('your api key')
-        initial_prompt = f"You are a Linux OS terminal. Your task is to respond exactly as a Linux terminal would. The user has input this Linux command {cmd_input}. \
-            Use the information provided as a reference and generate the output accordingly." #Generate the correct output a user would expect for this command."
-        #  
-        prompt = "You must not act like a chatbot. \
-            You must not explain any inputs or outputs. \
-            You must not in any case have a conversation with user as a chatbot and must not explain your output and do not repeat commands user inputs."
+        self.write(f"This is the user input {cmd_input}\n")
+        self.write(f"This is cmd dictionary: {cmd_count}\n")
 
-        with open('./src/cowrie/shell/shelLM/fewshot_personalitySSH.yml', 'r') as pFile:
-                identity = yaml.safe_load(pFile)
-                identity = identity['personality']
-                personality_prompt = identity['prompt']
+        if cmd_count[cmd_input] == 1:
+            # call the LLM here since its the first time user has input this command
+            openai.api_key = ('your api key')
 
-        message = [{"role": "system", "content": initial_prompt+prompt}]
+            initial_prompt = f"You are a Linux OS terminal. Your task is to respond exactly as a Linux terminal would. The user has input this Linux command {cmd_input}. \
+                Use the information provided as a reference and generate the output accordingly."
+            
+            prompt = "You must not act like a chatbot. \
+                You must not explain any inputs or outputs. \
+                You must not in any case have a conversation with user as a chatbot and must not explain your output and do not repeat commands user inputs."
 
-        res = openai.chat.completions.create( # try stream but i dont think it makes a difference
-            model="gpt-3.5-turbo-16k",
-            messages = message,
-            temperature = 0, # randomness of output
-            max_tokens = 800
-            #frequency_penalty=0.5
-        )
-        msg = res.choices[0].message.content # response from model
-        self.write(f"{msg}\n") # add newline
+            with open(f"./src/cowrie/shell/shelLM/{prompt_file}", 'r') as pFile:
+                    identity = yaml.safe_load(pFile)
+                    identity = identity['personality']
+                    personality_prompt = identity['prompt']
+
+            message = [{"role": "system", "content": initial_prompt+prompt}]
+
+            res = openai.chat.completions.create( # stream doesnt make a difference
+                model="gpt-3.5-turbo-16k",
+                messages = message,
+                temperature = 0, # randomness of output
+                max_tokens = 1500
+                #frequency_penalty=0.5
+            )
+            msg = res.choices[0].message.content # response from model
+
+            # write to file so you can access again without LLM
+            name = f"{cmd_input}"
+            self.write_to_file_str(msg, name)
+
+            self.write(f"{msg}\n") # add newline
+        else:
+            log.msg(cmd_count)
+            filepath = f"./src/cowrie/shell/cache_out/{cmd_input}.txt"
+            log.msg(f"Reading from: {filepath}")
+            with open(filepath, encoding='utf-8') as readFile:
+                self.write(readFile.read())
+                self.write("\n")
 
     def __repr__(self) -> str:
         return str(self.__class__.__name__)

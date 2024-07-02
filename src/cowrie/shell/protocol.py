@@ -138,7 +138,7 @@ class HoneyPotBaseProtocol(insults.TerminalProtocol, TimeoutMixin):
         self.user = None
         self.environ = None
 
-    def txtcmd(self, txt: str, cmd_arr) -> object:
+    def txtcmd(self, txt: str, cmd_arr, cmd_count) -> object:
         class Command_txtcmd(command.HoneyPotCommand):
             def call(self):
                 cmds_ls = ['df', 'dmesg', 'pkill', 'lscpu', 'nproc', 'top', 'vim']
@@ -160,9 +160,12 @@ class HoneyPotBaseProtocol(insults.TerminalProtocol, TimeoutMixin):
                 cmd_args = cmd_args[1:-1]
                 log.msg(f"Command arguments: {cmd_args}")
 
-                if cmd_args == '[]':
+                if cmd_args == '':
                     full_cmd = main_cmd
                 else:
+                    cmd_args = cmd_args[1:-1]
+                    log.msg("cmg_args")
+                    log.msg("cmd_args[1:-1]")
                     full_cmd = main_cmd + " " + cmd_args
                 log.msg(f"This is the full command: {full_cmd}")
 
@@ -177,7 +180,7 @@ class HoneyPotBaseProtocol(insults.TerminalProtocol, TimeoutMixin):
                         prompt_file = "fewshot_personalitySSH.yml"
 
                     self.write("Running LLM.\n")
-                    self.runLLM(full_cmd, prompt_file)
+                    self.runLLM(full_cmd, prompt_file, cmd_count)
                 else:
                     with open(txt, encoding="utf-8") as f:
                         self.write(f.read())
@@ -191,7 +194,7 @@ class HoneyPotBaseProtocol(insults.TerminalProtocol, TimeoutMixin):
         """
         return True if cmd in self.commands else False
 
-    def getCommand(self, cmd, paths, cmd_arr):
+    def getCommand(self, cmd, paths, cmd_arr, cmd_count):
         if not cmd.strip():
             return None
         path = None
@@ -211,7 +214,7 @@ class HoneyPotBaseProtocol(insults.TerminalProtocol, TimeoutMixin):
             "{}/txtcmds/{}".format(CowrieConfig.get("honeypot", "share_path"), path)
         )
         if os.path.exists(txt) and os.path.isfile(txt):
-            return self.txtcmd(txt, cmd_arr)
+            return self.txtcmd(txt, cmd_arr, cmd_count)
 
         if path in self.commands:
             return self.commands[path]
