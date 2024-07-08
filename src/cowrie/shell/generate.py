@@ -1,5 +1,6 @@
 #!/bin/bash
 
+# bin/cowrie generate src/cowrie/shell/generate.py <input cmd> <args/optional>
 from __future__ import annotations
 
 from openai import OpenAI
@@ -13,11 +14,11 @@ def add_context(prompt_filepath:str, cmd: str, msg: str):
         f.write(msg)
     f.close()
 
-def gen_cmdOutput(input_cmd: str) -> None:
+def gen_cmdOutput(input_cmd: str, args: str) -> None:
     # generate any long command outputs here
     call_count = 4
 
-    client = OpenAI(api_key='sk-cowrie-poc-LoDxIQLF8Nki2bpbHYFIT3BlbkFJxxahJfi8yktT0dzYDxCe')
+    client = OpenAI(api_key='your api key')
     
     initial_prompt = f"You are a Linux OS terminal. Your task is to respond exactly as a Linux terminal would. The user has input this Linux command {input_cmd}. \
             Use the information provided as a reference and generate the output accordingly."
@@ -62,4 +63,4 @@ def gen_cmdOutput(input_cmd: str) -> None:
 
 
 print("Generating...")
-gen_cmdOutput(sys.argv[2]) # get the 1st positional arg after python script name
+gen_cmdOutput(sys.argv[2], sys.argv[3]) # get the 1st positional arg after python script name
