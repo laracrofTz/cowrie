@@ -37,34 +37,29 @@ python_version_warning() {
 }
 
 find_cowrie_directory() {
-    # Determine Cowrie directory, $0 is a shell variable which holds the name of the currently executing script
-    # it is assumed that Cowrie directory is one level above scripts location
-    if [[ "$0" = /* ]] # if script was invoked with abs path (starting with /)
+    if [[ "$0" = /* ]]
     then
         COWRIEDIR=$(dirname $0)/..
-    else # else if script is invoked with relative path
-        COWRIEDIR=$(dirname $PWD/$0)/.. # an absolute path is constructed by combining current working directory and scripts location
+    else 
+        COWRIEDIR=$(dirname $PWD/$0)/.. 
     fi
     COWRIEDIR=$(cd ${COWRIEDIR} && pwd -P 2>/dev/null || pwd)
 }
 
 activate_venv() {
-    # Activate Python virtual environment
-    VENV="$1" # takes one arg
-    if [ ! -f "$VENV/bin/activate" ] # VENV is path to virtual env directory, checks if this file exists
+    VENV="$1" 
+    if [ ! -f "$VENV/bin/activate" ]
     then
-        return 1 # if doesnt exist, returns 1 err code
+        return 1
     fi
-    . $VENV/bin/activate # executes the activate script withing virtual env
+    . $VENV/bin/activate 
     return 0
 }
 
 cowrie_status() {
-    # Check and Print status
-    PID=$(cat ${PIDFILE} 2>/dev/null || echo "") # reads contents of the file specified by PIDFILE, PIDFILE likely contains the PID of the running cowrie instance
-    # ^if file doesnt exist or there is an error, an empty string is assigned to the PID
-    if [ -n "$PID" ]; then # checks if PID is not empty (if Cowrie PID exists or no)
-        if ps -p "$PID" 2>&1 >/dev/null; then # use ps to check if process with the PID is running
+    PID=$(cat ${PIDFILE} 2>/dev/null || echo "") 
+    if [ -n "$PID" ]; then 
+        if ps -p "$PID" 2>&1 >/dev/null; then 
             echo "cowrie is running (PID: ${PID})."
         else
             echo "cowrie is not running (PID: ${PID})."
@@ -75,19 +70,12 @@ cowrie_status() {
         echo "cowrie is not running."
     fi
 }
-
-# bin/cowrie generate src/cowrie/shell/generate.py <any input name>
-# This function is to generate all the caching information before starting cowrie honeypot. 
+ 
 cowrie_generate() {
-    # call a python script that generates everything 
-    # ***When assigning a value to variable in bash, there should not be any spaces between, PYTHONSCRIPT = "$1"
-    PYTHONSCRIPT="$1" # send in the first argument which would be the python path 
-    python3 "$PYTHONSCRIPT" "$@" # send in the remaining args to the function
+    PYTHONSCRIPT="$1"
+    python3 "$PYTHONSCRIPT" "$@" 
     printf "Python file path is %s.\n" $PYTHONSCRIPT 
-    echo "Python script running..."
 
-    # checking if python script has ran successfully
-    # check if exit status is 0, exit status is $?
     if [ $? -eq 0 ]; then 
         echo "Script has successfully run"
     else
@@ -96,13 +84,12 @@ cowrie_generate() {
 }
 
 cowrie_start() {
-    # Start Cowrie
-    COWRIEARGS="$*" # assigns all arguments to the variable
-    TWISTEDARGS="${XARGS} --umask=0022 --pidfile=${PIDFILE}" # constructs arguments for the twisted command
+    COWRIEARGS="$*"
+    TWISTEDARGS="${XARGS} --umask=0022 --pidfile=${PIDFILE}"
 
     # Run foreground or background. Foreground has no file log.
     if [ "$COWRIE_STDOUT" = "yes" ]; then
-        TWISTEDARGS="${TWISTEDARGS} -n -l -" # runs in the foreground without file logging
+        TWISTEDARGS="${TWISTEDARGS} -n -l -"
     else
         TWISTEDARGS="${TWISTEDARGS} --logger cowrie.python.logfile.logger"
     fi
@@ -129,7 +116,6 @@ cowrie_start() {
     python_version_warning
 
     # Automatically check if the authbind is enabled or not
-    # authbind is utility that allows non root processes to bind to privileged ports (those below 1024)
     authfile="/etc/authbind/byport/22"
     if [ -z ${AUTHBIND_ENABLED} ] && [ -x "$authfile" ] && command -v authbind >/dev/null; then
         AUTHBIND_ENABLED=yes
@@ -231,7 +217,7 @@ key=$1
 shift 1
 case $key in
     stop)
-        cowrie_stop $* # invokes function with any additional arguments ($*)
+        cowrie_stop $* 
         ;;
     force-stop)
         cowrie_force_stop $*

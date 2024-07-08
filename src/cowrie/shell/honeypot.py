@@ -6,6 +6,7 @@ from __future__ import annotations
 
 import copy
 import os
+import shutil
 import re
 import shlex
 from typing import Any
@@ -23,7 +24,7 @@ class HoneyPotShell:
         self, protocol: Any, interactive: bool = True, redirect: bool = False
     ) -> None:
         log.msg("Initialising honeypotshell class here!")
-        self.cmd_count = {}
+        self.cmd_count = {'dmesg': 1}
         log.msg(self.cmd_count)
         self.protocol = protocol
         self.interactive: bool = interactive
@@ -306,7 +307,7 @@ class HoneyPotShell:
         else:
             cmd_args = cmd_args[1:-1]
             log.msg("cmg_args")
-            log.msg("cmd_args[1:-1]")
+            log.msg(f"cmd_args[1:-1]")
             full_cmd = main_cmd + " " + cmd_args
 
         # update count dictionary

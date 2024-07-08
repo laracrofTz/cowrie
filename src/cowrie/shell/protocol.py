@@ -21,9 +21,7 @@ import cowrie.commands
 from cowrie.core.config import CowrieConfig
 from cowrie.shell import command, honeypot
 
-import openai
-import yaml
-from dotenv import dotenv_values
+from openai import OpenAI
 
 class HoneyPotBaseProtocol(insults.TerminalProtocol, TimeoutMixin):
     """
@@ -141,50 +139,40 @@ class HoneyPotBaseProtocol(insults.TerminalProtocol, TimeoutMixin):
     def txtcmd(self, txt: str, cmd_arr, cmd_count) -> object:
         class Command_txtcmd(command.HoneyPotCommand):
             def call(self):
-                cmds_ls = ['df', 'dmesg', 'pkill', 'lscpu', 'nproc', 'top', 'vim']
-                log.msg(f'Reading txtcmd from "{txt}"') # txt is the path share/cowrie/txtcmds/bin/df
-                log.msg(f"cmd arr: {cmd_arr}")
-               
-                # Cmd array: [{'command': 'dmesg', 'rargs': ['-k']}]
-                # path = txt
-                # path = path.rsplit('/')
-                # llm_cmd = path[-1]
-                # log.msg(f"Extracted cmd: {llm_cmd}")
-
-                # This is the full command: dmesg []
-                # Command arguments: []
-                # This is the full command: dmesg ['-d']
+                cmds_ls = ['df', 'dmesg', 'pkill', 'lscpu', 'nproc', 'top']
+                # log.msg(f'Reading txtcmd from "{txt}"') 
+                # log.msg(f"cmd arr: {cmd_arr}")
 
                 main_cmd = str(cmd_arr[0]['command'])
                 cmd_args = str(cmd_arr[0]['rargs'])
                 cmd_args = cmd_args[1:-1]
-                log.msg(f"Command arguments: {cmd_args}")
+                # log.msg(f"Command arguments: {cmd_args}")
 
                 if cmd_args == '':
                     full_cmd = main_cmd
                 else:
                     cmd_args = cmd_args[1:-1]
-                    log.msg("cmg_args")
-                    log.msg("cmd_args[1:-1]")
+                    # log.msg("cmg_args")
+                    # log.msg(f"cmd_args[1:-1]")
                     full_cmd = main_cmd + " " + cmd_args
                 log.msg(f"This is the full command: {full_cmd}")
 
                 if main_cmd in cmds_ls:
                     if main_cmd == 'dmesg':
-                        prompt_file = "dmesg_prompt.yml"
+                        prompt_file = "dmesg_prompt.txt"
+                        cmd_count = {full_cmd: 1} # update the dmesg commands count to read from cache
                     elif main_cmd == 'df':
-                        prompt_file = "df_prompt.yml"
+                        prompt_file = "df_prompt.txt"
                     elif main_cmd == 'lscpu':
-                        prompt_file = "lscpu_prompt.yml"
+                        prompt_file = "lscpu_prompt.txt"
                     else:
-                        prompt_file = "fewshot_personalitySSH.yml"
+                        prompt_file = "fewshot_personalitySSH.txt"
 
                     self.write("Running LLM.\n")
                     self.runLLM(full_cmd, prompt_file, cmd_count)
                 else:
                     with open(txt, encoding="utf-8") as f:
                         self.write(f.read())
-            # maybe need to add a function that gives initial information about the username and hostname to the LLM so it will understand how to produce dynamic outputs accordingly???
 
         return Command_txtcmd
 

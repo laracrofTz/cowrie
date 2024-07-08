@@ -1,0 +1,555 @@
+    Below is the provided manual page for the dmesg command. You must understand it and provide correct and appropriate output for the user input linux command.
+    You must also provide a full output, with fake timestamp up to 10 seconds.
+
+    User input: 
+    dmesg
+    Your output: 
+    [    0.000000] Linux version 6.8.0-35-generic (buildd@lcy02-amd64-020) (x86_64-linux-gnu-gcc-13 (Ubuntu 13.2.0-23ubuntu4) 13.2.0, GNU ld (GNU Binutils for Ubuntu) 2.42) #35-Ubuntu SMP PREEMPT_DYNAMIC Mon May 20 15:51:52 UTC 2024 (Ubuntu 6.8.0-35.35-generic 6.8.4)
+    [    0.000000] Command line: BOOT_IMAGE=/vmlinuz-6.8.0-35-generic root=/dev/mapper/ubuntu--vg-ubuntu--lv ro
+    [    0.000000] KERNEL supported cpus:
+    [    0.000000]   Intel GenuineIntel
+    [    0.000000]   AMD AuthenticAMD
+    [    0.000000]   Hygon HygonGenuine
+    [    0.000000]   Centaur CentaurHauls
+    [    0.000000]   zhaoxin   Shanghai  
+    [    0.000000] BIOS-provided physical RAM map:
+    [    0.000000] BIOS-e820: [mem 0x0000000000000000-0x000000000009fbff] usable
+    [    0.000000] BIOS-e820: [mem 0x000000000009fc00-0x000000000009ffff] reserved
+    [    0.000000] BIOS-e820: [mem 0x00000000000f0000-0x00000000000fffff] reserved
+    [    0.000000] BIOS-e820: [mem 0x0000000000100000-0x00000000bffd9fff] usable
+    [    0.000000] BIOS-e820: [mem 0x00000000bffda000-0x00000000bfffffff] reserved
+    [    0.000000] BIOS-e820: [mem 0x00000000feffc000-0x00000000feffffff] reserved
+    [    0.000000] BIOS-e820: [mem 0x00000000fffc0000-0x00000000ffffffff] reserved
+    [    0.000000] BIOS-e820: [mem 0x0000000100000000-0x000000103fffffff] usable
+    [    0.000000] NX (Execute Disable) protection: active
+    [    0.000000] APIC: Static calls initialized
+    [    0.000000] SMBIOS 3.0.0 present.
+    [    0.000000] DMI: QEMU Standard PC (i440FX + PIIX, 1996), BIOS rel-1.16.2-0-gea1b7a073390-prebuilt.qemu.org 04/01/2014
+    [    0.000000] Hypervisor detected: KVM
+    [    0.000000] kvm-clock: Using msrs 4b564d01 and 4b564d00
+    [    0.000001] kvm-clock: using sched offset of 852720251564 cycles
+    [    0.000003] clocksource: kvm-clock: mask: 0xffffffffffffffff max_cycles: 0x1cd42e4dffb, max_idle_ns: 881590591483 ns
+    [    0.000006] tsc: Detected 2294.608 MHz processor
+    [    0.001125] e820: update [mem 0x00000000-0x00000fff] usable ==> reserved
+    [    0.001129] e820: remove [mem 0x000a0000-0x000fffff] usable
+    [    0.001134] last_pfn = 0x1040000 max_arch_pfn = 0x400000000
+    [    0.001171] MTRR map: 4 entries (3 fixed + 1 variable; max 19), built from 8 variable MTRRs
+    [    0.001174] x86/PAT: Configuration [0-7]: WB  WC  UC- UC  WB  WP  UC- WT  
+    [    0.001219] last_pfn = 0xbffda max_arch_pfn = 0x400000000
+    [    0.009997] found SMP MP-table at [mem 0x000f5b70-0x000f5b7f]
+    [    0.010914] RAMDISK: [mem 0x2ffe1000-0x33fe7fff]
+    [    0.011360] ACPI: Early table checksum verification disabled
+    [    0.011365] ACPI: RSDP 0x00000000000F5B30 000014 (v00 BOCHS )
+    [    0.011371] ACPI: RSDT 0x00000000BFFE21B5 000038 (v01 BOCHS  BXPC     00000001 BXPC 00000001)
+    [    0.011379] ACPI: FACP 0x00000000BFFE1F67 000074 (v01 BOCHS  BXPC     00000001 BXPC 00000001)
+    [    0.011393] ACPI: DSDT 0x00000000BFFDE040 003F27 (v01 BOCHS  BXPC     00000001 BXPC 00000001)
+    [    0.011399] ACPI: FACS 0x00000000BFFDE000 000040
+    [    0.011404] ACPI: APIC 0x00000000BFFE1FDB 0000B0 (v03 BOCHS  BXPC     00000001 BXPC 00000001)
+    [    0.011409] ACPI: SSDT 0x00000000BFFE208B 0000CA (v01 BOCHS  VMGENID  00000001 BXPC 00000001)
+    [    0.011415] ACPI: HPET 0x00000000BFFE2155 000038 (v01 BOCHS  BXPC     00000001 BXPC 00000001)
+    [    0.011420] ACPI: WAET 0x00000000BFFE218D 000028 (v01 BOCHS  BXPC     00000001 BXPC 00000001)
+    [    0.011424] ACPI: Reserving FACP table memory at [mem 0xbffe1f67-0xbffe1fda]
+    [    0.011426] ACPI: Reserving DSDT table memory at [mem 0xbffde040-0xbffe1f66]
+    [    0.011427] ACPI: Reserving FACS table memory at [mem 0xbffde000-0xbffde03f]
+    [    0.011429] ACPI: Reserving APIC table memory at [mem 0xbffe1fdb-0xbffe208a]
+    [    0.011430] ACPI: Reserving SSDT table memory at [mem 0xbffe208b-0xbffe2154]
+    [    0.011431] ACPI: Reserving HPET table memory at [mem 0xbffe2155-0xbffe218c]
+    [    0.011432] ACPI: Reserving WAET table memory at [mem 0xbffe218d-0xbffe21b4]
+    [    0.011935] No NUMA configuration found
+    [    0.011937] Faking a node at [mem 0x0000000000000000-0x000000103fffffff]
+    [    0.011947] NODE_DATA(0) allocated [mem 0x103ff99000-0x103ffc3fff]
+    [    0.012204] Zone ranges:
+    [    0.012206]   DMA      [mem 0x0000000000001000-0x0000000000ffffff]
+    [    0.012208]   DMA32    [mem 0x0000000001000000-0x00000000ffffffff]
+    [    0.012210]   Normal   [mem 0x0000000100000000-0x000000103fffffff]
+    [    0.012212]   Device   empty
+    [    0.012213] Movable zone start for each node
+    [    0.012216] Early memory node ranges
+    [    0.012217]   node   0: [mem 0x0000000000001000-0x000000000009efff]
+    [    0.012218]   node   0: [mem 0x0000000000100000-0x00000000bffd9fff]
+    [    0.012220]   node   0: [mem 0x0000000100000000-0x000000103fffffff]
+    [    0.012227] Initmem setup node 0 [mem 0x0000000000001000-0x000000103fffffff]
+    [    0.012237] On node 0, zone DMA: 1 pages in unavailable ranges
+    [    0.012269] On node 0, zone DMA: 97 pages in unavailable ranges
+    [    0.163299] On node 0, zone Normal: 38 pages in unavailable ranges
+    [    0.164646] ACPI: PM-Timer IO Port: 0x608
+    [    0.164668] ACPI: LAPIC_NMI (acpi_id[0xff] dfl dfl lint[0x1])
+    [    0.164714] IOAPIC[0]: apic_id 0, version 17, address 0xfec00000, GSI 0-23
+    [    0.164719] ACPI: INT_SRC_OVR (bus 0 bus_irq 0 global_irq 2 dfl dfl)
+    [    0.164722] ACPI: INT_SRC_OVR (bus 0 bus_irq 5 global_irq 5 high level)
+    [    0.164724] ACPI: INT_SRC_OVR (bus 0 bus_irq 9 global_irq 9 high level)
+    [    0.164725] ACPI: INT_SRC_OVR (bus 0 bus_irq 10 global_irq 10 high level)
+    [    0.164727] ACPI: INT_SRC_OVR (bus 0 bus_irq 11 global_irq 11 high level)
+    [    0.164734] ACPI: Using ACPI (MADT) for SMP configuration information
+    [    0.164736] ACPI: HPET id: 0x8086a201 base: 0xfed00000
+    [    0.164741] smpboot: Allowing 8 CPUs, 0 hotplug CPUs
+    [    0.164762] kvm-guest: APIC: eoi() replaced with kvm_guest_apic_eoi_write()
+    [    0.164777] PM: hibernation: Registered nosave memory: [mem 0x00000000-0x00000fff]
+    [    0.164779] PM: hibernation: Registered nosave memory: [mem 0x0009f000-0x0009ffff]
+    [    0.164780] PM: hibernation: Registered nosave memory: [mem 0x000a0000-0x000effff]
+    [    0.164781] PM: hibernation: Registered nosave memory: [mem 0x000f0000-0x000fffff]
+    [    0.164783] PM: hibernation: Registered nosave memory: [mem 0xbffda000-0xbfffffff]
+    [    0.164784] PM: hibernation: Registered nosave memory: [mem 0xc0000000-0xfeffbfff]
+    [    0.164786] PM: hibernation: Registered nosave memory: [mem 0xfeffc000-0xfeffffff]
+    [    0.164787] PM: hibernation: Registered nosave memory: [mem 0xff000000-0xfffbffff]
+    [    0.164788] PM: hibernation: Registered nosave memory: [mem 0xfffc0000-0xffffffff]
+    [    0.164790] [mem 0xc0000000-0xfeffbfff] available for PCI devices
+    [    0.164791] Booting paravirtualized kernel on KVM
+    [    0.164794] clocksource: refined-jiffies: mask: 0xffffffff max_cycles: 0xffffffff, max_idle_ns: 1910969940391419 ns
+    [    0.164801] setup_percpu: NR_CPUS:8192 nr_cpumask_bits:8 nr_cpu_ids:8 nr_node_ids:1
+    [    0.165471] percpu: Embedded 86 pages/cpu s229376 r8192 d114688 u524288
+    [    0.165477] pcpu-alloc: s229376 r8192 d114688 u524288 alloc=1*2097152
+    [    0.165480] pcpu-alloc: [0] 0 1 2 3 [0] 4 5 6 7 
+    [    0.165510] kvm-guest: PV spinlocks enabled
+    [    0.165512] PV qspinlock hash table entries: 256 (order: 0, 4096 bytes, linear)
+    [    0.165519] Kernel command line: BOOT_IMAGE=/vmlinuz-6.8.0-35-generic root=/dev/mapper/ubuntu--vg-ubuntu--lv ro
+    [    0.165559] Unknown kernel command line parameters "BOOT_IMAGE=/vmlinuz-6.8.0-35-generic", will be passed to user space.
+    [    0.172597] Dentry cache hash table entries: 8388608 (order: 14, 67108864 bytes, linear)
+    [    0.176507] Inode-cache hash table entries: 4194304 (order: 13, 33554432 bytes, linear)
+    [    0.176711] Fallback order for Node 0: 0 
+    [    0.176717] Built 1 zonelists, mobility grouping on.  Total pages: 16514778
+    [    0.176718] Policy zone: Normal
+    [    0.176725] mem auto-init: stack:all(zero), heap alloc:on, heap free:off
+    [    0.176730] software IO TLB: area num 8.
+    [    0.374517] Memory: 65774084K/67108320K available (22528K kernel code, 4439K rwdata, 14292K rodata, 4976K init, 4736K bss, 1333976K reserved, 0K cma-reserved)
+    [    0.405503] SLUB: HWalign=64, Order=0-3, MinObjects=0, CPUs=8, Nodes=1
+    [    0.405595] Kernel/User page tables isolation: enabled
+    [    0.405671] ftrace: allocating 57827 entries in 226 pages
+    [    0.418008] ftrace: allocated 226 pages with 4 groups
+    [    0.419084] Dynamic Preempt: voluntary
+    [    0.419339] rcu: Preemptible hierarchical RCU implementation.
+    [    0.419340] rcu: 	RCU restricting CPUs from NR_CPUS=8192 to nr_cpu_ids=8.
+    [    0.419342] 	Trampoline variant of Tasks RCU enabled.
+    [    0.419343] 	Rude variant of Tasks RCU enabled.
+    [    0.419343] 	Tracing variant of Tasks RCU enabled.
+    [    0.419344] rcu: RCU calculated value of scheduler-enlistment delay is 100 jiffies.
+    [    0.419345] rcu: Adjusting geometry for rcu_fanout_leaf=16, nr_cpu_ids=8
+    [    0.422653] NR_IRQS: 524544, nr_irqs: 488, preallocated irqs: 16
+    [    0.422910] rcu: srcu_init: Setting srcu_struct sizes based on contention.
+    [    0.423031] Console: colour dummy device 80x25
+    [    0.423034] printk: legacy console [tty0] enabled
+    [    0.423414] ACPI: Core revision 20230628
+    [    0.423738] clocksource: hpet: mask: 0xffffffff max_cycles: 0xffffffff, max_idle_ns: 19112604467 ns
+    [    0.423914] APIC: Switch to symmetric I/O mode setup
+    [    0.424205] x2apic enabled
+    [    0.424566] APIC: Switched APIC routing to: physical x2apic
+    [    0.425895] ..TIMER: vector=0x30 apic1=0 pin1=2 apic2=-1 pin2=-1
+    [    0.425929] clocksource: tsc-early: mask: 0xffffffffffffffff max_cycles: 0x21134f58f0d, max_idle_ns: 440795217993 ns
+    [    0.425938] Calibrating delay loop (skipped) preset value.. 4589.21 BogoMIPS (lpj=2294608)
+    [    0.426098] Last level iTLB entries: 4KB 0, 2MB 0, 4MB 0
+    [    0.426101] Last level dTLB entries: 4KB 0, 2MB 0, 4MB 0, 1GB 0
+    [    0.426107] Spectre V1 : Mitigation: usercopy/swapgs barriers and __user pointer sanitization
+    [    0.426112] Spectre V2 : Mitigation: Retpolines
+    [    0.426114] Spectre V2 : Spectre v2 / SpectreRSB mitigation: Filling RSB on context switch
+    [    0.426117] Spectre V2 : Spectre v2 / SpectreRSB : Filling RSB on VMEXIT
+    [    0.426120] Speculative Store Bypass: Vulnerable
+    [    0.426123] MDS: Vulnerable: Clear CPU buffers attempted, no microcode
+    [    0.426126] MMIO Stale Data: Unknown: No mitigations
+    [    0.426130] x86/fpu: x87 FPU will use FXSAVE
+    [    0.452437] Freeing SMP alternatives memory: 48K
+    [    0.452446] pid_max: default: 32768 minimum: 301
+    [    0.453113] LSM: initializing lsm=lockdown,capability,landlock,yama,apparmor,integrity
+    [    0.453309] landlock: Up and running.
+    [    0.453311] Yama: becoming mindful.
+    [    0.453405] AppArmor: AppArmor initialized
+    [    0.453851] Mount-cache hash table entries: 131072 (order: 8, 1048576 bytes, linear)
+    [    0.454039] Mountpoint-cache hash table entries: 131072 (order: 8, 1048576 bytes, linear)
+    [    0.556902] smpboot: CPU0: Intel QEMU Virtual CPU version 2.5+ (family: 0xf, model: 0x6b, stepping: 0x1)
+    [    0.556935] RCU Tasks: Setting shift to 3 and lim to 1 rcu_task_cb_adjust=1.
+    [    0.556935] RCU Tasks Rude: Setting shift to 3 and lim to 1 rcu_task_cb_adjust=1.
+    [    0.556935] RCU Tasks Trace: Setting shift to 3 and lim to 1 rcu_task_cb_adjust=1.
+    [    0.556935] Performance Events: unsupported Netburst CPU model 107 no PMU driver, software events only.
+    [    0.556935] signal: max sigframe size: 1440
+    [    0.556935] rcu: Hierarchical SRCU implementation.
+    [    0.556935] rcu: 	Max phase no-delay instances is 400.
+    [    0.556935] NMI watchdog: Perf NMI watchdog permanently disabled
+    [    0.556935] smp: Bringing up secondary CPUs ...
+    [    0.557022] smpboot: x86: Booting SMP configuration:
+    [    0.557026] .... node  #0, CPUs:      #1 #2 #3 #4 #5 #6 #7
+    [    0.644000] smp: Brought up 1 node, 8 CPUs
+    [    0.644008] smpboot: Max logical packages: 1
+    [    0.644011] smpboot: Total of 8 processors activated (36713.72 BogoMIPS)
+    [    0.648337] devtmpfs: initialized
+    [    0.648337] x86/mm: Memory block size: 1024MB
+    [    0.649629] clocksource: jiffies: mask: 0xffffffff max_cycles: 0xffffffff, max_idle_ns: 1911260446275000 ns
+    [    0.649629] futex hash table entries: 2048 (order: 5, 131072 bytes, linear)
+    [    0.650243] pinctrl core: initialized pinctrl subsystem
+    [    0.650449] PM: RTC time: 03:22:40, date: 2024-06-21
+    [    0.651536] NET: Registered PF_NETLINK/PF_ROUTE protocol family
+    [    0.652385] DMA: preallocated 4096 KiB GFP_KERNEL pool for atomic allocations
+    [    0.653175] DMA: preallocated 4096 KiB GFP_KERNEL|GFP_DMA pool for atomic allocations
+    [    0.653952] DMA: preallocated 4096 KiB GFP_KERNEL|GFP_DMA32 pool for atomic allocations
+    [    0.653974] audit: initializing netlink subsys (disabled)
+    [    0.654027] audit: type=2000 audit(1718940160.312:1): state=initialized audit_enabled=0 res=1
+    [    0.654120] thermal_sys: Registered thermal governor 'fair_share'
+    [    0.654122] thermal_sys: Registered thermal governor 'bang_bang'
+    [    0.654126] thermal_sys: Registered thermal governor 'step_wise'
+    [    0.654128] thermal_sys: Registered thermal governor 'user_space'
+    [    0.654131] thermal_sys: Registered thermal governor 'power_allocator'
+    [    0.654140] EISA bus registered
+    [    0.654153] cpuidle: using governor ladder
+    [    0.654158] cpuidle: using governor menu
+    [    0.654259] acpiphp: ACPI Hot Plug PCI Controller Driver version: 0.5
+    [    0.654602] PCI: Using configuration type 1 for base access
+    [    0.654967] kprobes: kprobe jump-optimization is enabled. All kprobes are optimized if possible.
+    [    0.655007] HugeTLB: registered 2.00 MiB page size, pre-allocated 0 pages
+    [    0.655011] HugeTLB: 28 KiB vmemmap can be freed for a 2.00 MiB page
+    [    0.656047] fbcon: Taking over console
+    [    0.656082] ACPI: Added _OSI(Module Device)
+    [    0.656085] ACPI: Added _OSI(Processor Device)
+    [    0.656087] ACPI: Added _OSI(3.0 _SCP Extensions)
+    [    0.656090] ACPI: Added _OSI(Processor Aggregator Device)
+    [    0.658678] ACPI: 2 ACPI AML tables successfully acquired and loaded
+    [    0.659222] ACPI: _OSC evaluation for CPUs failed, trying _PDC
+    [    0.659948] ACPI: Interpreter enabled
+    [    0.659965] ACPI: PM: (supports S0 S3 S4 S5)
+    [    0.659968] ACPI: Using IOAPIC for interrupt routing
+    [    0.660323] PCI: Using host bridge windows from ACPI; if necessary, use "pci=nocrs" and report a bug
+    [    0.660327] PCI: Using E820 reservations for host bridge windows
+    [    0.660531] ACPI: Enabled 3 GPEs in block 00 to 0F
+    [    0.667147] ACPI: PCI Root Bridge [PCI0] (domain 0000 [bus 00-ff])
+    [    0.667157] acpi PNP0A03:00: _OSC: OS supports [ASPM ClockPM Segments MSI EDR HPX-Type3]
+    [    0.667162] acpi PNP0A03:00: _OSC: not requesting OS control; OS requires [ExtendedConfig ASPM ClockPM MSI]
+    [    0.667174] acpi PNP0A03:00: fail to add MMCONFIG information, can't access extended configuration space under this bridge
+    [    0.667832] acpiphp: Slot [3] registered
+    [    0.667870] acpiphp: Slot [18] registered
+    [    0.667918] acpiphp: Slot [4] registered
+    [    0.667942] acpiphp: Slot [6] registered
+    [    0.667961] acpiphp: Slot [7] registered
+    [    0.667980] acpiphp: Slot [8] registered
+    [    0.667999] acpiphp: Slot [9] registered
+    [    0.668018] acpiphp: Slot [10] registered
+    [    0.668037] acpiphp: Slot [11] registered
+    [    0.668058] acpiphp: Slot [12] registered
+    [    0.668080] acpiphp: Slot [13] registered
+    [    0.668099] acpiphp: Slot [14] registered
+    [    0.668118] acpiphp: Slot [15] registered
+    [    0.668137] acpiphp: Slot [16] registered
+    [    0.668155] acpiphp: Slot [17] registered
+    [    0.668174] acpiphp: Slot [19] registered
+    [    0.668193] acpiphp: Slot [20] registered
+    [    0.668214] acpiphp: Slot [21] registered
+    [    0.668233] acpiphp: Slot [22] registered
+    [    0.668252] acpiphp: Slot [23] registered
+    [    0.668271] acpiphp: Slot [24] registered
+    [    0.668289] acpiphp: Slot [25] registered
+    [    0.668308] acpiphp: Slot [26] registered
+    [    0.668327] acpiphp: Slot [27] registered
+    [    0.668346] acpiphp: Slot [28] registered
+    [    0.668367] acpiphp: Slot [29] registered
+    [    0.668382] PCI host bridge to bus 0000:00
+    [    0.668385] pci_bus 0000:00: root bus resource [io  0x0000-0x0cf7 window]
+    [    0.668389] pci_bus 0000:00: root bus resource [io  0x0d00-0xffff window]
+    [    0.668393] pci_bus 0000:00: root bus resource [mem 0x000a0000-0x000bffff window]
+    [    0.668397] pci_bus 0000:00: root bus resource [mem 0xc0000000-0xfebfffff window]
+    [    0.668400] pci_bus 0000:00: root bus resource [mem 0x1040000000-0x10bfffffff window]
+    [    0.668405] pci_bus 0000:00: root bus resource [bus 00-ff]
+    [    0.668468] pci 0000:00:00.0: [8086:1237] type 00 class 0x060000 conventional PCI endpoint
+    [    0.669019] pci 0000:00:01.0: [8086:7000] type 00 class 0x060100 conventional PCI endpoint
+    [    0.669726] pci 0000:00:01.1: [8086:7010] type 00 class 0x010180 conventional PCI endpoint
+    [    0.673698] pci 0000:00:01.1: BAR 4 [io  0xf080-0xf08f]
+    [    0.675334] pci 0000:00:01.1: BAR 0 [io  0x01f0-0x01f7]: legacy IDE quirk
+    [    0.675340] pci 0000:00:01.1: BAR 1 [io  0x03f6]: legacy IDE quirk
+    [    0.675343] pci 0000:00:01.1: BAR 2 [io  0x0170-0x0177]: legacy IDE quirk
+    [    0.675346] pci 0000:00:01.1: BAR 3 [io  0x0376]: legacy IDE quirk
+    [    0.675568] pci 0000:00:01.2: [8086:7020] type 00 class 0x0c0300 conventional PCI endpoint
+    [    0.679333] pci 0000:00:01.2: BAR 4 [io  0xf040-0xf05f]
+    [    0.682407] pci 0000:00:01.3: [8086:7113] type 00 class 0x068000 conventional PCI endpoint
+    [    0.682979] pci 0000:00:01.3: quirk: [io  0x0600-0x063f] claimed by PIIX4 ACPI
+    [    0.682993] pci 0000:00:01.3: quirk: [io  0x0700-0x070f] claimed by PIIX4 SMB
+    [    0.683258] pci 0000:00:02.0: [1234:1111] type 00 class 0x030000 conventional PCI endpoint
+    [    0.685017] pci 0000:00:02.0: BAR 0 [mem 0xfc000000-0xfcffffff pref]
+    [    0.687962] pci 0000:00:02.0: BAR 2 [mem 0xfea50000-0xfea50fff]
+    [    0.693962] pci 0000:00:02.0: ROM [mem 0xfea40000-0xfea4ffff pref]
+    [    0.694159] pci 0000:00:02.0: Video device with shadowed ROM at [mem 0x000c0000-0x000dffff]
+    [    0.694983] pci 0000:00:03.0: [1af4:1002] type 00 class 0x00ff00 conventional PCI endpoint
+    [    0.695938] pci 0000:00:03.0: BAR 0 [io  0xf000-0xf03f]
+    [    0.703937] pci 0000:00:03.0: BAR 4 [mem 0xfd600000-0xfd603fff 64bit pref]
+    [    0.706467] pci 0000:00:05.0: [1b36:0001] type 01 class 0x060400 conventional PCI bridge
+    [    0.708938] pci 0000:00:05.0: BAR 0 [mem 0xfea51000-0xfea510ff 64bit]
+    [    0.710949] pci 0000:00:05.0: PCI bridge to [bus 01]
+    [    0.710983] pci 0000:00:05.0:   bridge window [io  0xe000-0xefff]
+    [    0.711005] pci 0000:00:05.0:   bridge window [mem 0xfe800000-0xfe9fffff]
+    [    0.712559] pci 0000:00:05.0:   bridge window [mem 0xfd400000-0xfd5fffff 64bit pref]
+    [    0.717724] pci 0000:00:12.0: [1af4:1000] type 00 class 0x020000 conventional PCI endpoint
+    [    0.718453] pci 0000:00:12.0: BAR 0 [io  0xf060-0xf07f]
+    [    0.719469] pci 0000:00:12.0: BAR 1 [mem 0xfea52000-0xfea52fff]
+    [    0.722938] pci 0000:00:12.0: BAR 4 [mem 0xfd604000-0xfd607fff 64bit pref]
+    [    0.724938] pci 0000:00:12.0: ROM [mem 0xfea00000-0xfea3ffff pref]
+    [    0.731200] pci 0000:00:1e.0: [1b36:0001] type 01 class 0x060400 conventional PCI bridge
+    [    0.732361] pci 0000:00:1e.0: BAR 0 [mem 0xfea53000-0xfea530ff 64bit]
+    [    0.732948] pci 0000:00:1e.0: PCI bridge to [bus 02]
+    [    0.732981] pci 0000:00:1e.0:   bridge window [io  0xd000-0xdfff]
+    [    0.733003] pci 0000:00:1e.0:   bridge window [mem 0xfe600000-0xfe7fffff]
+    [    0.733458] pci 0000:00:1e.0:   bridge window [mem 0xfd200000-0xfd3fffff 64bit pref]
+    [    0.734442] pci 0000:00:1f.0: [1b36:0001] type 01 class 0x060400 conventional PCI bridge
+    [    0.735453] pci 0000:00:1f.0: BAR 0 [mem 0xfea54000-0xfea540ff 64bit]
+    [    0.736374] pci 0000:00:1f.0: PCI bridge to [bus 03]
+    [    0.736407] pci 0000:00:1f.0:   bridge window [io  0xc000-0xcfff]
+    [    0.736937] pci 0000:00:1f.0:   bridge window [mem 0xfe400000-0xfe5fffff]
+    [    0.738171] pci 0000:00:1f.0:   bridge window [mem 0xfd000000-0xfd1fffff 64bit pref]
+    [    0.739124] pci_bus 0000:01: extended config space not accessible
+    [    0.739413] acpiphp: Slot [1-2] registered
+    [    0.739436] acpiphp: Slot [0] registered
+    [    0.739456] acpiphp: Slot [2] registered
+    [    0.739478] acpiphp: Slot [3-2] registered
+    [    0.739501] acpiphp: Slot [4-2] registered
+    [    0.739520] acpiphp: Slot [5] registered
+    [    0.739542] acpiphp: Slot [6-2] registered
+    [    0.739564] acpiphp: Slot [7-2] registered
+    [    0.739588] acpiphp: Slot [8-2] registered
+    [    0.739610] acpiphp: Slot [9-2] registered
+    [    0.739633] acpiphp: Slot [10-2] registered
+    [    0.739655] acpiphp: Slot [11-2] registered
+    [    0.739678] acpiphp: Slot [12-2] registered
+    [    0.739699] acpiphp: Slot [13-2] registered
+    [    0.739721] acpiphp: Slot [14-2] registered
+    [    0.739744] acpiphp: Slot [15-2] registered
+    [    0.739768] acpiphp: Slot [16-2] registered
+    [    0.739790] acpiphp: Slot [17-2] registered
+    [    0.739813] acpiphp: Slot [18-2] registered
+    [    0.739835] acpiphp: Slot [19-2] registered
+    [    0.739857] acpiphp: Slot [20-2] registered
+    [    0.739944] acpiphp: Slot [21-2] registered
+    [    0.739970] acpiphp: Slot [22-2] registered
+    [    0.739993] acpiphp: Slot [23-2] registered
+    [    0.740017] acpiphp: Slot [24-2] registered
+    [    0.740040] acpiphp: Slot [25-2] registered
+    [    0.740064] acpiphp: Slot [26-2] registered
+    [    0.740086] acpiphp: Slot [27-2] registered
+    [    0.740109] acpiphp: Slot [28-2] registered
+    [    0.740131] acpiphp: Slot [29-2] registered
+    [    0.740150] acpiphp: Slot [30] registered
+    [    0.740173] acpiphp: Slot [31] registered
+    [    0.740598] pci 0000:01:01.0: [1af4:1004] type 00 class 0x010000 conventional PCI endpoint
+    [    0.741938] pci 0000:01:01.0: BAR 0 [io  0xe000-0xe03f]
+    [    0.743938] pci 0000:01:01.0: BAR 1 [mem 0xfe800000-0xfe800fff]
+    [    0.750938] pci 0000:01:01.0: BAR 4 [mem 0xfd400000-0xfd403fff 64bit pref]
+    [    0.763447] pci 0000:00:05.0: PCI bridge to [bus 01]
+    [    0.764117] pci_bus 0000:02: extended config space not accessible
+    [    0.764388] acpiphp: Slot [0-2] registered
+    [    0.764413] acpiphp: Slot [1-3] registered
+    [    0.764436] acpiphp: Slot [2-2] registered
+    [    0.764459] acpiphp: Slot [3-3] registered
+    [    0.764484] acpiphp: Slot [4-3] registered
+    [    0.764507] acpiphp: Slot [5-2] registered
+    [    0.764530] acpiphp: Slot [6-3] registered
+    [    0.764553] acpiphp: Slot [7-3] registered
+    [    0.764575] acpiphp: Slot [8-3] registered
+    [    0.764597] acpiphp: Slot [9-3] registered
+    [    0.764621] acpiphp: Slot [10-3] registered
+    [    0.764644] acpiphp: Slot [11-3] registered
+    [    0.764669] acpiphp: Slot [12-3] registered
+    [    0.764693] acpiphp: Slot [13-3] registered
+    [    0.764716] acpiphp: Slot [14-3] registered
+    [    0.764738] acpiphp: Slot [15-3] registered
+    [    0.764761] acpiphp: Slot [16-3] registered
+    [    0.764783] acpiphp: Slot [17-3] registered
+    [    0.764806] acpiphp: Slot [18-3] registered
+    [    0.764828] acpiphp: Slot [19-3] registered
+    [    0.764941] acpiphp: Slot [20-3] registered
+    [    0.764965] acpiphp: Slot [21-3] registered
+    [    0.764988] acpiphp: Slot [22-3] registered
+    [    0.765010] acpiphp: Slot [23-3] registered
+    [    0.765033] acpiphp: Slot [24-3] registered
+    [    0.765056] acpiphp: Slot [25-3] registered
+    [    0.765079] acpiphp: Slot [26-3] registered
+    [    0.765101] acpiphp: Slot [27-3] registered
+    [    0.765127] acpiphp: Slot [28-3] registered
+    [    0.765150] acpiphp: Slot [29-3] registered
+    [    0.765172] acpiphp: Slot [30-2] registered
+    [    0.765195] acpiphp: Slot [31-2] registered
+    [    0.774628] pci 0000:00:1e.0: PCI bridge to [bus 02]
+    [    0.775115] pci_bus 0000:03: extended config space not accessible
+
+    SYNOPSIS
+    dmesg [options]
+
+    dmesg --clear
+
+    dmesg --read-clear [options]
+
+    dmesg --console-level level
+
+    dmesg --console-on
+
+    dmesg --console-off
+
+    DESCRIPTION
+    dmesg is used to examine or control the kernel ring buffer.
+
+    The default action is to display all messages from the kernel ring buffer.
+
+    OPTIONS
+    The --clear, --read-clear, --console-on, --console-off, and --console-level options are mutually exclusive.
+
+    -C, --clear
+        Clear the ring buffer.
+
+    -c, --read-clear
+        Clear the ring buffer after first printing its contents.
+
+    -D, --console-off
+        Disable the printing of messages to the console.
+
+    -d, --show-delta
+        Display the timestamp and the time delta spent between messages. If used together with --notime then only
+        the time delta without the timestamp is printed.
+
+    -E, --console-on
+        Enable printing messages to the console.
+
+    -e, --reltime
+        Display the local time and the delta in human-readable format. Be aware that conversion to the local time
+        could be inaccurate (see -T for more details).
+
+    -F, --file file
+        Read the syslog messages from the given file. Note that -F does not support messages in kmsg format. The
+        old syslog format is supported only.
+
+    -f, --facility list
+        Restrict output to the given (comma-separated) list of facilities. For example:
+
+        dmesg --facility=daemon
+
+        will print messages from system daemons only. For all supported facilities see the --help output.
+
+    -H, --human
+        Enable human-readable output. See also --color, --reltime and --nopager.
+
+    -k, --kernel
+        Print kernel messages.
+
+    -L, --color[=when]
+        Colorize the output. The optional argument when can be auto, never or always. If the when argument is
+        omitted, it defaults to auto. The colors can be disabled; for the current built-in default see the --help
+        output. See also the COLORS section below.
+
+    -l, --level list
+        Restrict output to the given (comma-separated) list of levels. For example:
+
+        dmesg --level=err,warn
+
+        will print error and warning messages only. For all supported levels see the --help output.
+
+    -n, --console-level level
+        Set the level at which printing of messages is done to the console. The level is a level number or
+        abbreviation of the level name. For all supported levels see the --help output.
+
+        For example, -n 1 or -n emerg prevents all messages, except emergency (panic) messages, from appearing on
+        the console. All levels of messages are still written to /proc/kmsg, so syslogd(8) can still be used to
+        control exactly where kernel messages appear. When the -n option is used, dmesg will not print or clear
+        the kernel ring buffer.
+
+    --noescape
+        The unprintable and potentially unsafe characters (e.g., broken multi-byte sequences, terminal controlling
+        chars, etc.) are escaped in format \x<hex> for security reason by default. This option disables this
+        feature at all. It’s usable for example for debugging purpose together with --raw. Be careful and don’t
+        use it by default.
+
+    -P, --nopager
+        Do not pipe output into a pager. A pager is enabled by default for --human output.
+
+    -p, --force-prefix
+        Add facility, level or timestamp information to each line of a multi-line message.
+
+    -r, --raw
+        Print the raw message buffer, i.e., do not strip the log-level prefixes, but all unprintable characters
+        are still escaped (see also --noescape).
+
+        Note that the real raw format depends on the method how dmesg reads kernel messages. The /dev/kmsg device
+        uses a different format than syslog(2). For backward compatibility, dmesg returns data always in the
+        syslog(2) format. It is possible to read the real raw data from /dev/kmsg by, for example, the command 'dd
+        if=/dev/kmsg iflag=nonblock'.
+
+    -S, --syslog
+        Force dmesg to use the syslog(2) kernel interface to read kernel messages. The default is to use /dev/kmsg
+        rather than syslog(2) since kernel 3.5.0.
+
+    -s, --buffer-size size
+        Use a buffer of size to query the kernel ring buffer. This is 16392 by default. (The default kernel syslog
+        buffer size was 4096 at first, 8192 since 1.3.54, 16384 since 2.1.113.) If you have set the kernel buffer
+        to be larger than the default, then this option can be used to view the entire buffer.
+
+    -T, --ctime
+        Print human-readable timestamps.
+
+        Be aware that the timestamp could be inaccurate! The time source used for the logs is not updated after
+        system SUSPEND/RESUME. Timestamps are adjusted according to current delta between boottime and monotonic
+        clocks, this works only for messages printed after last resume.
+
+    --since time
+        Display record since the specified time. The time is possible to specify in absolute way as well as by
+        relative notation (e.g. '1 hour ago'). Be aware that the timestamp could be inaccurate and see --ctime for
+        more details.
+
+    --until time
+        Display record until the specified time. The time is possible to specify in absolute way as well as by
+        relative notation (e.g. '1 hour ago'). Be aware that the timestamp could be inaccurate and see --ctime for
+        more details.
+
+    -t, --notime
+        Do not print kernel’s timestamps.
+
+    --time-format format
+        Print timestamps using the given format, which can be ctime, reltime, delta or iso. The first three
+        formats are aliases of the time-format-specific options. The iso format is a dmesg implementation of the
+        ISO-8601 timestamp format. The purpose of this format is to make the comparing of timestamps between two
+        systems, and any other parsing, easy. The definition of the iso timestamp is:
+        YYYY-MM-DD<T>HH:MM:SS,<microseconds>←+><timezone offset from UTC>.
+
+        The iso format has the same issue as ctime: the time may be inaccurate when a system is suspended and
+        resumed.
+
+    -u, --userspace
+        Print userspace messages.
+
+    -w, --follow
+        Wait for new messages. This feature is supported only on systems with a readable /dev/kmsg (since kernel
+        3.5.0).
+
+    -W, --follow-new
+        Wait and print only new messages.
+
+    -x, --decode
+        Decode facility and level (priority) numbers to human-readable prefixes.
+
+    -V, --version
+        Display version information and exit.
+
+    -h, --help
+        Display help text and exit.
+
+    COLORS
+        Implicit coloring can be disabled by an empty file /etc/terminal-colors.d/dmesg.disable. See
+        terminal-colors.d(5) for more details about colorization configuration.
+
+        The logical color names supported by dmesg are:
+
+        subsys
+            The message sub-system prefix (e.g., "ACPI:").
+
+        time
+            The message timestamp.
+
+        timebreak
+            The message timestamp in short ctime format in --reltime or --human output.
+
+        alert
+            The text of the message with the alert log priority.
+
+        crit
+            The text of the message with the critical log priority.
+
+        err
+            The text of the message with the error log priority.
+
+        warn
+            The text of the message with the warning log priority.
+
+        segfault
+            The text of the message that inform about segmentation fault.
+
+    EXIT STATUS
+        dmesg can fail reporting permission denied error. This is usually caused by dmesg_restrict kernel setting,
+        please see syslog(2) for more details.

@@ -12,10 +12,7 @@ import re
 import shlex
 import stat
 import time
-import openai 
-import yaml
-import collections
-from pathlib import Path
+from openai import OpenAI
 from collections.abc import Callable
 
 from twisted.internet import error
@@ -146,18 +143,25 @@ class HoneyPotCommand:
         self.fs.update_size(self.outfile, self.writtenBytes)
 
     def write_to_file_str(self, msg: str, filename: str) -> None:
-        full_filepath = f"./src/cowrie/shell/outputs/{filename}.txt"
-        # outputs also has to be cleared each time
+        full_filepath = f"./src/cowrie/shell/cache_out/{filename}.txt"
         with open(full_filepath, 'w') as outFile:
             outFile.write(msg)
         outFile.close()
+    
+    def add_context(self, prompt_file: str, input_cmd: str, msg: str) -> None:
+        # write context for single cmd input into prompt file
+        prompt_filepath = f"./src/cowrie/shell/shelLM/{prompt_file}"
+        with open(prompt_filepath, 'a+') as f:
+            f.write("This was the previous Linux command input by the user and your generated output. You must use this as context for the same subsequent commands.\n")
+            f.write(f"root@svr04:~# {input_cmd}\n")
+            f.write(msg)
+        f.close()
 
     def write_to_failed(self, data: bytes) -> None:
         pass
 
-    def start(self) -> None: # only starts when we input command, not called during startup
+    def start(self) -> None: # only starts eachtime we input command, not called during startup
         if self.writefn != self.write_to_failed:
-            #self.cmd_count = {} # reset the count here when we restart the honeypot
             self.call()
         self.exit()
 
@@ -212,13 +216,11 @@ class HoneyPotCommand:
         pass
 
     def runLLM(self, cmd_input: str, prompt_file: str, cmd_count) -> None:
-        # add a count to see if the command is called more than once for caching
-        self.write(f"This is the user input {cmd_input}\n")
-        self.write(f"This is cmd dictionary: {cmd_count}\n")
-
+        # self.write(f"This is the user input {cmd_input}\n")
+        # self.write(f"This is cmd dictionary: {cmd_count}\n")
+        
         if cmd_count[cmd_input] == 1:
-            # call the LLM here since its the first time user has input this command
-            openai.api_key = ('your api key')
+            client = OpenAI(api_key= 'your key here')
 
             initial_prompt = f"You are a Linux OS terminal. Your task is to respond exactly as a Linux terminal would. The user has input this Linux command {cmd_input}. \
                 Use the information provided as a reference and generate the output accordingly."
@@ -228,26 +230,22 @@ class HoneyPotCommand:
                 You must not in any case have a conversation with user as a chatbot and must not explain your output and do not repeat commands user inputs."
 
             with open(f"./src/cowrie/shell/shelLM/{prompt_file}", 'r') as pFile:
-                    identity = yaml.safe_load(pFile)
-                    identity = identity['personality']
-                    personality_prompt = identity['prompt']
+                    personality_prompt = pFile.read()
 
-            message = [{"role": "system", "content": initial_prompt+prompt}]
-
-            res = openai.chat.completions.create( # stream doesnt make a difference
-                model="gpt-3.5-turbo-16k",
+            message = [{"role": "system", "content": initial_prompt+personality_prompt+prompt}]
+            res = client.chat.completions.create( 
+                model="gpt-3.5-turbo",
                 messages = message,
-                temperature = 0, # randomness of output
-                max_tokens = 1500
-                #frequency_penalty=0.5
+                temperature = 0.1 # randomness of output
             )
-            msg = res.choices[0].message.content # response from model
+            msg = res.choices[0].message.content
 
-            # write to file so you can access again without LLM
+            # caching
             name = f"{cmd_input}"
             self.write_to_file_str(msg, name)
-
-            self.write(f"{msg}\n") # add newline
+            # update with context for LLM
+            self.add_context(prompt_file, cmd_input, msg)
+        
         else:
             log.msg(cmd_count)
             filepath = f"./src/cowrie/shell/cache_out/{cmd_input}.txt"
